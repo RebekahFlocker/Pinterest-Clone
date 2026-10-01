@@ -1,0 +1,384 @@
+:root{
+	--ink:#202124;
+	--muted:#73767c;
+	--line:#ededee;
+	--red:#d94147;
+	--soft:#f3f3f4
+}
+*{box-sizing:border-box}
+	body{
+		margin:0;
+		color:var(--ink);
+		background:#fff;
+		font-family:Inter,
+			-apple-system,
+			BlinkMacSystemFont,
+			"Segoe UI",
+			sans-serif
+		}
+button, input {font:inherit}
+button {cursor:pointer}
+
+.topbar{
+	height:76px;
+	position:sticky;
+	top:0;
+	z-index:5;
+	display:flex;
+	align-items:center;
+	gap:20px;
+	padding:0 28px;
+	background:rgba(255,255,255,.96);
+	border-bottom:1px solid var(--line);
+	backdrop-filter:blur(12px)
+}
+.brand{
+	display:flex;
+	align-items:center;
+	gap:9px;
+	flex:none;
+	color:var(--ink);
+	text-decoration:none;
+	font-size:20px;
+	font-weight:800;
+	letter-spacing:-.7px;
+}
+.brand-mark{
+	width:36px;
+	height:36px;
+	display:grid;
+	place-items:center;
+	border-radius:50%;
+	background:var(--red);
+	color:#fff;
+	font-family:Georgia,serif;
+	font-size:25px
+}
+.nav{
+	display:flex;
+	gap:5px
+}
+.nav button,.icon{
+	border:0;
+	background:transparent;
+	color:var(--ink);
+}
+.nav button{
+	padding:12px 16px;
+	border-radius:24px;
+	font-weight:650
+}
+.nav button.active{
+	background:var(--ink);
+	color:#fff
+}
+.search{
+	height:48px;
+	flex:1;
+	min-width:120px;
+	display:flex;
+	align-items:center;
+	gap:12px;
+	padding:0 18px;
+	border-radius:25px;
+	background:var(--soft);
+	color:var(--muted)
+}
+.search:focus-within{outline:2px solid #a9c9f4}
+.search input{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:15px}
+		
+.actions{
+	display:flex;
+	align-items:center;
+	gap:8px
+}
+.icon{
+	width:42px;
+	height:42px;
+	display:grid;
+	place-items:center;
+	border-radius:50%;
+	color:#666
+}
+.icon:hover{background:var(--soft)}
+.avatar{
+	width:36px;
+	height:36px;
+	display:grid;
+	place-items:center;
+	border-radius:50%;
+	background:#f1d7c7;
+	color:#644838;
+	font-size:13px;
+	font-weight:750}
+main{
+	max-width:1500px;
+	margin:auto;
+	padding:30px 38px 70px
+}
+.intro{
+	text-align:center;
+	margin:15px auto 28px
+}
+.eyebrow{
+	margin:0 0 9px;
+	color:var(--red);
+	font-size:12px;
+	font-weight:800;
+	letter-spacing:1.5px;
+	text-transform:uppercase
+}
+h1{
+	margin:0;
+	font-size:clamp(29px,4vw,43px);
+	letter-spacing:-1.8px
+}
+.subtitle{
+	margin:10px 0 0;
+	color:var(--muted);
+	font-size:15px
+}
+.topics{
+	display:flex;
+	justify-content:center;
+	gap:10px;
+	overflow:auto;
+	padding:4px 0 25px;
+	scrollbar-width:none
+}
+.topic{
+	flex:none;
+	padding:10px 17px;
+}
+.topic:hover,.topic.selected{
+	border-color:var(--ink);
+	background:var(--ink);
+	color:#fff
+}
+.section-head{
+	display:flex;
+	align-items:end;
+	justify-content:space-between;
+	margin:5px 0 18px
+}
+.section-head h2{
+	margin:0;
+	font-size:20px;
+	letter-spacing:-.5px
+}
+.section-head span{
+	color:var(--muted);
+	font-size:13px;
+}
+.grid{
+	columns:5 205px;
+	column-gap:18px
+}
+.pin{
+	display:inline-block;
+	width:100%;
+	margin:0 0 22px;
+	break-inside:avoid
+}
+.pin-image{
+	position:relative;
+	overflow:hidden;
+	border-radius:17px;
+	background:#eee
+}
+.pin-image img{
+	display:block;
+	width:100%;
+	height:auto;
+	min-height:190px;
+	object-fit:cover;
+	transition:transform .35s
+}
+.pin:hover img{transform:scale(1.035)}
+.save{
+	position:absolute;
+	top:12px;
+	right:12px;
+	padding:11px 16px;
+	border:0;
+	border-radius:24px;
+	background:var(--red);
+	color:#fff;
+	font-size:13px;
+	font-weight:750;
+	opacity:0;
+	transform:translateY(-4px);
+	transition:.2s;
+}
+.pin:hover .save,.save:focus-visible{
+	opacity:1;
+	transform:none
+}
+.pin-meta{
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	gap:8px;
+	padding:10px 2px 0px;
+}
+.pin-title{
+	margin:0;
+	overflow:hidden;
+	font-size:14px;
+	font-weight:700;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.pin-source{
+	margin:4px 0 0;
+	color:var(--muted);
+	font-size:12px;
+}
+.more{
+	flex:none;
+	width:30px;
+	height:30px}
+.more:hover{background:var(--soft);}
+.toast{
+	position:fixed;
+	left:50%;
+	bottom:24px;
+	z-index:8;
+	padding:12px 18px;
+	border-radius:24px;
+	background:var(--ink);
+	color:#fff;
+	font-size:14px;
+	opacity:0;
+	transform:translate(-50%,12px);
+	transition:.2s;
+	pointer-events:none
+}
+.toast.show{
+	opacity:1;
+	transform:translate(-50%,0)
+}
+[hidden]{display:none!important}
+@media(max-width:760px){
+	.topbar{
+		height:auto;
+		min-height:66px;
+		flex-wrap:wrap;
+		gap:10px;
+		padding:12px 16px
+		}
+	.brand{margin-right:auto}
+	.nav{
+		order:3;
+		width:100%;
+		justify-content:center
+		}
+	.search{
+		order:2;
+		flex-basis:100%
+		}
+	.actions{
+		position:absolute;
+		top:11px;
+		right:14px
+		}
+	.actions .icon:first-child{display:none}
+	main{padding:24px 18px 50px}
+	.intro{margin-top:5px}
+	.topics{justify-content:flex-start}
+	.grid{columns:2 145px;column-gap:12px}
+	.pin{margin-bottom:16px}
+	.save{opacity:1;
+		transform:none;
+		padding:9px 12px}
+}
+@media(max-width:380px){
+	.brand{font-size:18px}
+	.grid{columns:2 125px}
+}
+
+/* Card Container */
+.pin {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Image Container - establishes positioning boundary for .save */
+.pin-image {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.pin-image img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Floating Red Save Button (Top Right) */
+.pin-image .save {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #e60023;
+  color: #ffffff;
+  font-weight: 700;
+  border: none;
+  border-radius: 24px;
+  padding: 10px 18px;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.pin-image .save:hover {
+  background-color: #ad081b;
+}
+
+/* Metadata Section (Title, Subtitle, and Options Button) */
+.pin-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 4px;
+  gap: 8px;
+}
+
+.pin-text {
+  flex: 1;
+}
+
+.pin-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.pin-source {
+  font-size: 0.875rem;
+  color: #5f5f5f;
+  margin: 4px 0 0 0;
+}
+
+/* More Options (...) Button */
+.pin-meta .more {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #111;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.pin-meta .more:hover {
+  background-color: #e2e2e2;
+}
+	
