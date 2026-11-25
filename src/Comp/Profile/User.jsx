@@ -8,12 +8,12 @@ const defaultProfile = {
 	
 };
 
-function readStorage(key, fallback) {
+function readStorage(key, fallback) { // looks into my browser memory so that my app can use the data I save 
 	try {
-		const saved = window.localStorage.getItem(key);
-		return saved ? JSON.parse(saved) : fallback;
+		const saved = window.localStorage.getItem(key); // saves to local storage
+		return saved ? JSON.parse(saved) : fallback; // makes data JSON so that my app can read it
 	} catch {
-		return fallback;
+		return fallback; // so that the app wont crash / data wont delete 
 	}
 }
 
