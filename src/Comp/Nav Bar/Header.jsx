@@ -1,4 +1,6 @@
 import './Header.css'
+import homeImage from '../../assets/pinLogo.jpg'
+
 
 function Header({ activePage, onNavigate }) {
   return (
@@ -8,30 +10,32 @@ function Header({ activePage, onNavigate }) {
         type="button"
         onClick={() => onNavigate('home')}
       >
-        <span className="brand-logo">P</span>
+        <img
+          className="brand-logo"
+          src={homeImage}
+        />
         <span>Pinterest Clone</span>
       </button>
       <nav className="nav-bar">
         <button
           className="nav-link"
           type="button"
-          aria-current={activePage === 'home' ? 'page' : undefined}
           onClick={() => onNavigate('home')}
         >
           Home
         </button>
+        
         <button
           className="nav-link"
           type="button"
-          aria-current={activePage === 'messages' ? 'page' : undefined}
           onClick={() => onNavigate('messages')}
         >
           Messages
         </button>
+        
         <button
           className="nav-link"
           type="button"
-          aria-current={activePage === 'profile' ? 'page' : undefined}
           onClick={() => onNavigate('profile')}
         >
           Profile

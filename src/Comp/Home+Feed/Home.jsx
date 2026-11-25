@@ -4,20 +4,20 @@ import './Home.css'
 
 function Home() {
   const [posts, setPosts] = useState([])
-  const [savedPostIds, setSavedPostIds] = useState(() => new Set())
+  const [savedPostIds, setSavedPostIds] = useState(() => new Set()) // sets post IDs 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    const controller = new AbortController()
+    const controller = new AbortController() // cancels post if you switch pages
 
     async function loadFeed() {
       try {
-        const [postsResponse, productsResponse] = await Promise.all([
-          fetch('https://dummyjson.com/posts?limit=24', {
-            signal: controller.signal,
+        const [postsResponse, productsResponse] = await Promise.all([ // calls 2 request at the same time 
+          fetch('https://dummyjson.com/posts?limit=24', { // fetches 24 post from API
+            signal: controller.signal, // can be cancelled 
           }),
-          fetch('https://dummyjson.com/products?limit=30&select=images', {
+          fetch('https://dummyjson.com/products?limit=30&select=images', { // fetches 30 pics 
             signal: controller.signal,
           }),
         ])
@@ -29,25 +29,25 @@ function Home() {
           throw new Error(`The images request failed (${productsResponse.status}).`)
         }
 
-        const [postsData, productsData] = await Promise.all([
+        const [postsData, productsData] = await Promise.all([ // reads promise as JSON
           postsResponse.json(),
           productsResponse.json(),
         ])
 
         if (!Array.isArray(postsData.posts) || !Array.isArray(productsData.products)) {
-          throw new Error('The feed response did not contain valid posts and images.')
+          throw new Error('The feed response did not contain valid posts and images.') // if the post is invalid (no pic or post) then error is thrown
         }
 
         const productsWithImages = productsData.products.filter(
-          (product) => Array.isArray(product.images) && product.images.length > 0
+          (product) => Array.isArray(product.images) && product.images.length > 0 // keeps post only if there is an pic
         )
         if (postsData.posts.length > 0 && productsWithImages.length === 0) {
-          throw new Error('The feed response did not contain any images.')
+          throw new Error('The feed response did not contain any images.') 
         }
 
-        setPosts(
+        setPosts( // updates state 
           postsData.posts.map((post, index) => ({
-            ...post,
+            ...post, // copies old post content into new. basiclly keeps the old and just updates it/ adds new content
             image: productsWithImages[index % productsWithImages.length].images[0],
           }))
         )
@@ -66,19 +66,19 @@ function Home() {
       }
     }
 
-    loadFeed()
-    return () => controller.abort()
+    loadFeed() // starts loading the feed
+    return () => controller.abort() // not sure if i need this, but I put a cancel request in case the pages changes 
   }, [])
 
-  function toggleSaved(postId) {
-    setSavedPostIds((currentSavedIds) => {
-      const nextSavedIds = new Set(currentSavedIds)
+  function toggleSaved(postId) { 
+    setSavedPostIds((currentSavedIds) => { // tracks what post were saved using the post ID
+      const nextSavedIds = new Set(currentSavedIds) // for React to update the state if post is saved 
       if (nextSavedIds.has(postId)) {
         nextSavedIds.delete(postId)
       } else {
-        nextSavedIds.add(postId)
+        nextSavedIds.add(postId) // actually adds the post ID to the saved list
       }
-      return nextSavedIds
+      return nextSavedIds // for react to update again & show it
     })
   }
 
@@ -87,8 +87,7 @@ function Home() {
       <section className="home-intro">
         <img
           className="home-pic"
-          src={homeImage}
-          alt="Illustration introducing the home feed"
+          src={homeImage} // my Pinterest feed pic. I got this from a free stock site 
         />
         <div className="home-intro-copy">
           <p className="eyebrow">WELCOME TO YOUR HOME FEED</p>
@@ -97,7 +96,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="feed-section" aria-labelledby="feed-title">
+      <section className="feed-section">
         <h2 id="feed-title" className="feed-heading">Ideas for your feed</h2>
 
         {loading && <p className="feed-message" role="status">Loading ideas…</p>}
@@ -106,14 +105,15 @@ function Home() {
           <p className="feed-message">No ideas are available right now.</p>
         )}
 
-        {!loading && !error && posts.length > 0 && (
+
+        {!loading && !error && posts.length > 0 && ( // if there is no errors my feed/ post are displayed 
           <div className="pin-grid">
-            {posts.map((post) => {
+            {posts.map((post) => { // makes a box for each post
               const isSaved = savedPostIds.has(post.id)
-              const tags = Array.isArray(post.tags) ? post.tags.slice(0, 3) : []
+              const tags = Array.isArray(post.tags) ? post.tags.slice(0, 3) : [] // uses up to 3 tags from the API
 
               return (
-                <article className="pin-card" key={post.id}>
+                <article className="pin-card" key={post.id}> {/*what each card/ post should display*/}
                   <div className="pin-image-wrap">
                     <img
                       className="pin-image"
@@ -125,7 +125,7 @@ function Home() {
                       className={`pin-save-button${isSaved ? ' is-saved' : ''}`}
                       type="button"
                       aria-pressed={isSaved}
-                      onClick={() => toggleSaved(post.id)}
+                      onClick={() => toggleSaved(post.id)} // calls the save const function when clicked 
                     >
                       {isSaved ? 'Saved' : 'Save'}
                     </button>
@@ -140,7 +140,7 @@ function Home() {
                         ))}
                       </div>
                       <span className="pin-likes">
-                        {post.reactions?.likes ?? 0} likes
+                        {post.reactions?.likes ?? 0} likes {/*displays the amount of likes if any*/}
                       </span>
                     </div>
                   </div>
