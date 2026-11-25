@@ -5,6 +5,7 @@ import './Home.css'
 function Home() {
   const [posts, setPosts] = useState([])
   const [savedPostIds, setSavedPostIds] = useState(() => new Set()) // sets post IDs 
+  const [likedPostIds, setLikedPostIds] = useState(() => new Set())
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -82,6 +83,18 @@ function Home() {
     })
   }
 
+  function toggleLike(postId) { // for the like / unlike toggle I just used the same format as the save toggle 
+    setLikedPostIds((currentLikedIds) => { 
+      const nextLikedIds = new Set(currentLikedIds)
+      if (nextLikedIds.has(postId)) {
+        nextLikedIds.delete(postId)
+      } else {
+        nextLikedIds.add(postId)
+      }
+      return nextLikedIds
+    })
+  }
+
   return (
     <main className="home-page">
       <section className="home-intro">
@@ -110,6 +123,8 @@ function Home() {
           <div className="pin-grid">
             {posts.map((post) => { // makes a box for each post
               const isSaved = savedPostIds.has(post.id)
+              const isLiked = likedPostIds.has(post.id) // if post is liked its recorded in the ID
+              const likeCount = (post.reactions?.likes ?? 0) + (isLiked ? 1 : 0) // displays the amount of likes if any
               const tags = Array.isArray(post.tags) ? post.tags.slice(0, 3) : [] // uses up to 3 tags from the API
 
               return (
@@ -124,7 +139,6 @@ function Home() {
                     <button
                       className={`pin-save-button${isSaved ? ' is-saved' : ''}`}
                       type="button"
-                      aria-pressed={isSaved}
                       onClick={() => toggleSaved(post.id)} // calls the save const function when clicked 
                     >
                       {isSaved ? 'Saved' : 'Save'}
@@ -139,9 +153,12 @@ function Home() {
                           <span className="pin-tag" key={tag}>{tag}</span>
                         ))}
                       </div>
-                      <span className="pin-likes">
-                        {post.reactions?.likes ?? 0} likes {/*displays the amount of likes if any*/}
-                      </span>
+                      <button // I have a like button!! 
+                        className={`pin-likes${isLiked ? ' is-liked' : ''}`} // my css will tell the JS how the like should be positioned 
+                        type="button"
+                        onClick={() => toggleLike(post.id)} // the actual like toggle
+                      > {isLiked ? '♥' : '♡'} {likeCount} likes {/* emojies to show how the button should look when toggled  + like count */}
+                      </button>
                     </div>
                   </div>
                 </article>

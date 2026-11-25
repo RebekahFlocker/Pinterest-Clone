@@ -137,7 +137,7 @@
 
 .pin-description {
     color: var(--text);
-    display: -webkit-box;
+    display: -webkit-box; /* i didnt want my discription to be too long so the video said I can add a webkit*/
     font-size: 14px;
     line-clamp: 4;
     overflow: hidden;
@@ -169,8 +169,12 @@
 }
 
 .pin-likes {
+    background: transparent;
     color: var(--text);
+    border: 0;
+    cursor: pointer;
     font-size: 12px;
+    padding: 2px;
 }
 
 @media (max-width: 600px) {
